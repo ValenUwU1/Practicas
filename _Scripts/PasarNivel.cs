@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class PasarNivel : MonoBehaviour
 {
-    //Pasa del tutorial 1 al 2... Todavia estoy buscando una forma para poder hacer que este script sea reutilizable...
-    //...Con todos los finales de niveles.
     public int a =1;
     public void Awake()
     {
-        if (a > 2)
+        if (a > 3)
         {
             UsarCianuro.TieneCianuro = true;
         }
