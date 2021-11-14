@@ -5,7 +5,7 @@ using UnityEngine;
 public class ControlPJ : MonoBehaviour
 {
     private float _Vel=2;
-    public GameObject alma, camara;
+    public GameObject alma, camara,area;
     public float _FuerzaSalto=5f;
     public Rigidbody2D _Rb2d;
     public Animator animator;
@@ -17,6 +17,7 @@ public class ControlPJ : MonoBehaviour
     private void Awake()
     {
         alma.SetActive(false);
+        area.SetActive(false);
     }
     void FixedUpdate()
     {
@@ -65,6 +66,24 @@ public class ControlPJ : MonoBehaviour
                         _Rb2d.velocity = new Vector2(0, _Rb2d.velocity.y);
                         animator.SetBool("Caminar", false);
                     }
+            if (Input.GetKey("e") && coly != null)
+            {
+                StartCoroutine("Interactuar");
+            }
+            //Apretar M para morir :D
+            if (UsarCianuro.TieneCianuro && Input.GetKey("m"))
+            {
+                animator.SetBool("Kys", true);
+                animator.SetBool("Dead", true);
+                TieneControl = false;
+                StartCoroutine(Muerte());
+            }
+        }
+        else
+        {
+            animator.SetBool("Correr", false);
+            animator.SetBool("Agachado", false);
+            animator.SetBool("Caminar", false);
         }
     }
     void Update()
@@ -77,17 +96,12 @@ public class ControlPJ : MonoBehaviour
         {
             animator.SetBool("Salto", true);
         }
-        if (Input.GetKey("e")&&coly!=null)
-        {
-            coly.SendMessage("Activar", SendMessageOptions.DontRequireReceiver);
-        } 
-        //Apretar M para morir :D
-        if (UsarCianuro.TieneCianuro && Input.GetKey("m")){
-            animator.SetBool("Kys", true);
-            animator.SetBool("Dead", true);
-            TieneControl = false;
-            StartCoroutine(Muerte());
-        }
+    }
+    IEnumerator Interactuar()
+    {
+        coly.SendMessage("Activar", SendMessageOptions.DontRequireReceiver);
+        //Cooldown
+        yield return new WaitForSeconds(0.5f);
     }
     public LayerMask LayerPiso;
     public float distancia = 1.0f;
@@ -114,6 +128,7 @@ public class ControlPJ : MonoBehaviour
         alma.SetActive(true);
         alma.transform.parent = null; camara.transform.parent = Alma;
         AlmaControl.AlmaTieneControl = true;
+        area.SetActive(true);
     }
     //Revivir
     public void Resucitar()
@@ -127,12 +142,14 @@ public class ControlPJ : MonoBehaviour
         alma.SetActive(false);
         animator.SetBool("Dead", false); animator.SetBool("Kys", false);
         yield return new WaitForSeconds(1f);
+        area.SetActive(false);
         TieneControl = true;
+
 
     }
     private void OnTriggerEnter2D(Collider2D Trigger)
     {
-        if (Trigger.gameObject.CompareTag("Trigger"))
+        if (Trigger.gameObject.CompareTag("Trigger")|| Trigger.gameObject.CompareTag("DialogoTrigger"))
         {
             coly =Trigger;
             Debug.Log("+1");
@@ -140,7 +157,7 @@ public class ControlPJ : MonoBehaviour
     }
     private void OnTriggerExit2D(Collider2D Trigger)
     {
-        if (Trigger.gameObject.CompareTag("Trigger"))
+        if (Trigger.gameObject.CompareTag("Trigger") || Trigger.gameObject.CompareTag("DialogoTrigger"))
         {
             coly = null;
         }
