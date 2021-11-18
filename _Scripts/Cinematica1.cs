@@ -6,10 +6,10 @@ public class Cinematica1 : MonoBehaviour
 {
     //Poggers otro script hecho por mí solito
     public GameObject SueloCinematica, Alma, SueloCinematica2,chara;
-    public Transform pj;
-    public Animator animator;
+    public Transform pj,PuntoCine;
+    public Animator animator; public float velcine;
     public static int secuencia = 0;
-    void Update()
+    public void FixedUpdate()
     {
         if (ControlPJ.TieneControl&&secuencia==0)
         {
@@ -29,6 +29,12 @@ public class Cinematica1 : MonoBehaviour
         {
             StartCoroutine("Cinematica");
         }
+        if (secuencia == 3 && !ControlPJ.TieneControl)
+        {
+            AlmaControl.AlmaTieneControl = false; AlmaControl.AlmaTieneControl = false;
+            Alma.transform.position = Vector2.MoveTowards(PuntoCine.position, PuntoCine.position, velcine * Time.fixedDeltaTime);
+            StartCoroutine("Cinematica");
+        }
     }
     IEnumerator Cinematica()
     {
@@ -45,6 +51,13 @@ public class Cinematica1 : MonoBehaviour
             yield return new WaitForSeconds(2f);
             chara.SendMessage("Morir");
             animator.SetBool("EnCinematica", false);
+            secuencia = 3;
+            yield return null;
+        }
+        if (secuencia == 3)
+        {
+            yield return new WaitForSeconds(1f);
+            AlmaControl.AlmaTieneControl = true;
             Destroy(this);
         }
     }
