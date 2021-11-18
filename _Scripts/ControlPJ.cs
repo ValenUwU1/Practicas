@@ -71,7 +71,7 @@ public class ControlPJ : MonoBehaviour
                 StartCoroutine("Interactuar");
             }
             //Apretar M para morir :D
-            if (UsarCianuro.TieneCianuro && Input.GetKey("m"))
+            if (UsarCianuro.TieneCianuro && Input.GetKey("q"))
             {
                 animator.SetBool("Kys", true);
                 animator.SetBool("Dead", true);
@@ -118,6 +118,13 @@ public class ControlPJ : MonoBehaviour
             }
             return false;
         }
+    public void Morir()
+    {
+        alma.SetActive(true);
+        alma.transform.parent = null; camara.transform.parent = Alma;
+        AlmaControl.AlmaTieneControl = true;
+        area.SetActive(true);
+    }
     IEnumerator Muerte()
     {
         TieneControl = false;
@@ -140,7 +147,9 @@ public class ControlPJ : MonoBehaviour
         alma.transform.parent = PJ; camara.transform.parent = PJ;
         yield return new WaitForSeconds(1f);
         alma.SetActive(false);
-        animator.SetBool("Dead", false); animator.SetBool("Kys", false);
+        animator.SetBool("Dead", false); 
+        animator.SetBool("Kys", false);
+        animator.SetBool("MuerteRapida",false);
         yield return new WaitForSeconds(1f);
         area.SetActive(false);
         TieneControl = true;
