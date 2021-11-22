@@ -4,18 +4,26 @@ using UnityEngine;
 
 public class Cinematica1 : MonoBehaviour
 {
-    //Poggers otro script hecho por mí solito
-    public GameObject SueloCinematica, Alma, SueloCinematica2,chara;
+    public GameObject SueloCinematica, Alma, SueloCinematica2, chara, Dialogo1, boom;
     public Transform pj,PuntoCine;
     public Animator animator; public float velcine;
     public static int secuencia = 0;
+    private bool setoff=true;
     public void FixedUpdate()
     {
         if (ControlPJ.TieneControl&&secuencia==0)
         {
-            SueloCinematica.SetActive(false);
-            StartCoroutine("Cinematica");
-            animator.SetBool("EnCinematica", true);
+            
+            SueloCinematica.SetActive(true);
+            if (setoff) {
+                Dialogo1.SendMessage("Activar"); 
+                setoff = false; }
+            if (ControlPJ.TieneControl)
+            {
+                SueloCinematica.SetActive(false);
+                StartCoroutine("Cinematica");
+                animator.SetBool("EnCinematica", true);
+            }
         }
         if (secuencia == 1)
         {
@@ -32,7 +40,7 @@ public class Cinematica1 : MonoBehaviour
         if (secuencia == 3 && !ControlPJ.TieneControl)
         {
             AlmaControl.AlmaTieneControl = false; AlmaControl.AlmaTieneControl = false;
-            Alma.transform.position = Vector2.MoveTowards(PuntoCine.position, PuntoCine.position, velcine * Time.fixedDeltaTime);
+            Alma.transform.position = Vector2.MoveTowards(pj.position, PuntoCine.position, velcine * Time.fixedDeltaTime);
             StartCoroutine("Cinematica");
         }
     }
@@ -58,6 +66,7 @@ public class Cinematica1 : MonoBehaviour
         {
             yield return new WaitForSeconds(1f);
             AlmaControl.AlmaTieneControl = true;
+            secuencia = 4;
             Destroy(this);
         }
     }
@@ -67,6 +76,7 @@ public class Cinematica1 : MonoBehaviour
         if (c.CompareTag("Player")&&sec2==0)
         {
             animator.SetBool("MuerteRapida", true);
+            FindObjectOfType<AudioManager>().Play("VineBoom");
             sec2++;
         }
     }
