@@ -23,7 +23,7 @@ public class ControlPJ : MonoBehaviour
     {
         if (TieneControl)
         {
-            if (Input.GetKey("w") && TocaPiso())
+            if (Input.GetKeyDown("w") && TocaPiso())
             {
                 _Rb2d.velocity = new Vector2(_Rb2d.velocity.x, _FuerzaSalto);
             }
@@ -66,12 +66,12 @@ public class ControlPJ : MonoBehaviour
                         _Rb2d.velocity = new Vector2(0, _Rb2d.velocity.y);
                         animator.SetBool("Caminar", false);
                     }
-            if (Input.GetKey("e") && coly != null)
+            if (Input.GetKeyDown("e") && coly != null)
             {
-                StartCoroutine("Interactuar");
+                coly.SendMessage("Activar", SendMessageOptions.DontRequireReceiver);
             }
             //Apretar M para morir :D
-            if (UsarCianuro.TieneCianuro && Input.GetKey("q"))
+            if (UsarCianuro.TieneCianuro && Input.GetKeyDown("q"))
             {
                 animator.SetBool("Kys", true);
                 animator.SetBool("Dead", true);
@@ -96,12 +96,6 @@ public class ControlPJ : MonoBehaviour
         {
             animator.SetBool("Salto", true);
         }
-    }
-    IEnumerator Interactuar()
-    {
-        coly.SendMessage("Activar", SendMessageOptions.DontRequireReceiver);
-        //Cooldown
-        yield return new WaitForSeconds(0.5f);
     }
     public LayerMask LayerPiso;
     public float distancia = 1.0f;
@@ -131,7 +125,6 @@ public class ControlPJ : MonoBehaviour
         yield return new WaitForSeconds(.25f);
         animator.SetBool("Dead", true);
         yield return new WaitForSeconds(1.25f);
-        Debug.Log("poggers");
         alma.SetActive(true);
         alma.transform.parent = null; camara.transform.parent = Alma;
         AlmaControl.AlmaTieneControl = true;
@@ -161,7 +154,10 @@ public class ControlPJ : MonoBehaviour
         if (Trigger.gameObject.CompareTag("Trigger")|| Trigger.gameObject.CompareTag("DialogoTrigger"))
         {
             coly =Trigger;
-            Debug.Log("+1");
+        }
+        if (Trigger.CompareTag("Plataforma"))
+        {
+            transform.parent = Trigger.transform;
         }
     }
     private void OnTriggerExit2D(Collider2D Trigger)
@@ -169,6 +165,10 @@ public class ControlPJ : MonoBehaviour
         if (Trigger.gameObject.CompareTag("Trigger") || Trigger.gameObject.CompareTag("DialogoTrigger"))
         {
             coly = null;
+        }
+        if (Trigger.CompareTag("Plataforma"))
+        {
+            transform.parent = null;
         }
     }
 }

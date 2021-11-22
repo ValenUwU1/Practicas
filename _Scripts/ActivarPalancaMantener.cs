@@ -5,7 +5,7 @@ using UnityEngine;
 public class ActivarPalancaMantener : Palanca
 {
     public Animator anim;
-    public bool Mantener = false, primeravez=true;
+    public bool Mantener = false;
     public void Activar()
     {
         ControlPJ.TieneControl = false;
@@ -19,12 +19,7 @@ public class ActivarPalancaMantener : Palanca
             if (!Input.GetKey("e"))
             {
                 ControlPJ.TieneControl = true;
-                primeravez = true;
                 Mantener = false;
-            }
-            if (primeravez)
-            {
-                primeravez = false;
             }
         }
         else

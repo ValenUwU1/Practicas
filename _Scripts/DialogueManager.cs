@@ -12,6 +12,7 @@ public class DialogueManager : MonoBehaviour
     public Queue<float> Velocidad;
     public bool PasarDialogo;
     public Animator animator;
+    public static bool EnDialogo;
     private void Start()
     {
         Oraciones = new Queue<string> { };
@@ -74,5 +75,6 @@ public class DialogueManager : MonoBehaviour
    {
         animator.SetBool("Activada", false);
         ControlPJ.TieneControl = true;
-   }
+        EnDialogo = false;
+    }
 }

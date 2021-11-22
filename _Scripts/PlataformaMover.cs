@@ -7,7 +7,6 @@ public class PlataformaMover : MonoBehaviour
     public bool Funca = false, lugar;
     public float vel = .1f;
     public Transform PosA, PosB, Plataforma;
-    //POSA=22.22,
     public void Encendido()
     {
         Funca = true;
@@ -33,6 +32,13 @@ public class PlataformaMover : MonoBehaviour
     public void OnCollisionEnter2D(Collision2D c)
     {
         if (c.gameObject.tag == "Piso")
+        {
+            lugar = !lugar;
+        }
+    }
+    public void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.gameObject.tag == "Punto")
         {
             lugar = !lugar;
         }

@@ -11,17 +11,18 @@ public class DialogosTrigger : MonoBehaviour
     {
         if (!Scripteado)
         {
+            DialogueManager.EnDialogo = true;
             FindObjectOfType<DialogueManager>().ComenzarDialogo(_dialogo);
             ControlPJ.TieneControl = false;
         }
     }
-    //Dialogos Scripteados
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player")&&!NuncaMas)
+        if (collision.CompareTag("Player") && !NuncaMas && ControlPJ.TieneControl)
         {
             if (Scripteado)
             {
+                DialogueManager.EnDialogo = true;
                 NuncaMas = true;
                 FindObjectOfType<DialogueManager>().ComenzarDialogo(_dialogo);
                 ControlPJ.TieneControl = false;

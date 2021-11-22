@@ -38,6 +38,12 @@ public class PasarNivel : MonoBehaviour
             case 4:
                 Cargar.CargarEscena(Cargar.escenas.Nivel2);
                 break;
+            case 5:
+                Cargar.CargarEscena(Cargar.escenas.Nivel3);
+                break;
+            case 6:
+                Cargar.CargarEscena(Cargar.escenas.Fin);
+                break;
             default:
                 Cargar.CargarEscena(Cargar.escenas.Menu);
                 break;

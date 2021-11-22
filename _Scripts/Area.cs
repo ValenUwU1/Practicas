@@ -9,6 +9,7 @@ public class Area : MonoBehaviour
     public void Awake()
     {
         Physics2D.IgnoreLayerCollision(1, 3, true);
+        Physics2D.IgnoreLayerCollision(1, 0, true);
     }
     void Update()
     {

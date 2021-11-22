@@ -36,7 +36,7 @@ public class Esqueletor : MonoBehaviour
             {
                 animator.SetBool("Mover", false);
             }
-            if (Input.GetKey("m"))
+            if (Input.GetKey("q"))
             {
                 Morir();
             }
@@ -92,12 +92,16 @@ public class Esqueletor : MonoBehaviour
         camara.transform.parent = alma;
         Alma.transform.parent = null;
         AlmaControl.AlmaTieneControl = true;
-    } 
+    }
     public void OnTriggerEnter2D(Collider2D c)
     {
         if (c.CompareTag("Trigger"))
         {
             Col = c;
+        }
+        if (c.CompareTag("Plataforma"))
+        {
+          transform.parent = c.transform;         
         }
     }
     public void OnTriggerExit2D(Collider2D c)
@@ -105,6 +109,10 @@ public class Esqueletor : MonoBehaviour
         if (c.CompareTag("Trigger"))
         {
             Col = c;
+        }
+        if (c.CompareTag("Plataforma"))
+        {
+            transform.parent = null;
         }
     }
 }

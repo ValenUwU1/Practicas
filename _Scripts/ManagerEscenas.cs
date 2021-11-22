@@ -15,6 +15,7 @@ public static class Cargar
     Pastillas,
     Nivel1,
     Nivel2,
+    Nivel3,
     Fin,
     PantallaCarga
     }
