@@ -9,6 +9,11 @@ public class Creditos : MonoBehaviour
     {
         if (Input.anyKeyDown)
         {
+            GameObject[] audio = GameObject.FindGameObjectsWithTag("Audio");
+            foreach (GameObject a in audio)
+            {
+                Destroy(a);
+            }
             Cargar.CargarEscena(Cargar.escenas.Menu);
         }
     }
