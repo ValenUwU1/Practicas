@@ -12,10 +12,11 @@ public class PasarNivel : MonoBehaviour
             UsarCianuro.TieneCianuro = true;
         }
     }
-    public void Update()
+    private void Update()
     {
-        if (Input.GetKey("r"))
+        if (Input.GetKey("r")&&a>2)
         {
+            ControlPJ.TieneControl = true;
             a--;
             Nivel();
         }

@@ -18,7 +18,7 @@ public class Cinematica1 : MonoBehaviour
             if (setoff) {
                 Dialogo1.SendMessage("Activar"); 
                 setoff = false; }
-            if (ControlPJ.TieneControl)
+            if (ControlPJ.TieneControl&&SueloCinematica.activeSelf)
             {
                 SueloCinematica.SetActive(false);
                 StartCoroutine("Cinematica");
@@ -43,6 +43,7 @@ public class Cinematica1 : MonoBehaviour
             Alma.transform.position = Vector2.MoveTowards(pj.position, PuntoCine.position, velcine * Time.fixedDeltaTime);
             StartCoroutine("Cinematica");
         }
+        if (secuencia == 4) Destroy(this);
     }
     IEnumerator Cinematica()
     {
@@ -67,7 +68,6 @@ public class Cinematica1 : MonoBehaviour
             yield return new WaitForSeconds(1f);
             AlmaControl.AlmaTieneControl = true;
             secuencia = 4;
-            Destroy(this);
         }
     }
     private void OnTriggerEnter2D(Collider2D c)
